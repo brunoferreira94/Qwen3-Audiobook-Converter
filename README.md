@@ -22,8 +22,11 @@ Convert PDFs, EPUBs, DOCX, DOC, and TXT files into high-quality audiobooks using
 ## 🔊 Audio Demo
 
 🎧 **Sample Output**  
-[▶️ Click here to listen](https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/blob/main/sample/test_audio.mp3)
-
+<figure>
+  <figcaption>Listen to the T-Rex:</figcaption>
+  <audio controls src="https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/blob/main/sample/test_audio.mp3"></audio>
+  <a href="https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/blob/main/sample/test_audio.mp3"> Download audio </a>
+</figure>
 
 ## 🚀 Quick Start
 
