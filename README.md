@@ -28,6 +28,8 @@ Convert PDFs, EPUBs, DOCX, DOC, and TXT files into high-quality audiobooks using
   <a href="https://github.com/WhiskeyCoder/Qwen3-Audiobook-Converter/blob/main/sample/test_audio.mp3"> Download audio </a>
 </figure>
 
+No it's not broken, it's a raw mp3 file download it and play it, you can't embedded audio in a readme.md GitHub whenthe sample is on GitHub
+
 ## 🚀 Quick Start
 
 ### Prerequisites
