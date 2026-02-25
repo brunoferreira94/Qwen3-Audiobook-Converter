@@ -41,9 +41,15 @@ API_TIMEOUT = 300
 MAX_RETRIES = 3
 
 # Hardcoded Voice Settings (Always use 1.7B model)
-CUSTOM_VOICE_SPEAKER = "Ryan"
-CUSTOM_VOICE_LANGUAGE = "English"
-CUSTOM_VOICE_INSTRUCT = "Read in a clear, professional, and confident adult narrator's voice. Speak at a natural, conversational pace - not too fast, not too slow. Maintain a mature, authoritative tone suitable for adult literature. Use subtle emphasis and natural pauses only where appropriate for clarity, avoiding any condescending or overly dramatic delivery."
+# Can be overridden by environment variables when needed.
+CUSTOM_VOICE_SPEAKER = os.getenv("CUSTOM_VOICE_SPEAKER", "ryan")
+CUSTOM_VOICE_LANGUAGE = os.getenv("CUSTOM_VOICE_LANGUAGE", "pt-BR")
+CUSTOM_VOICE_INSTRUCT = os.getenv(
+    "CUSTOM_VOICE_INSTRUCT",
+    "Fale exclusivamente em português do Brasil, com sotaque brasileiro neutro. "
+    "Não use sotaque estrangeiro nem pronúncia de português europeu. "
+    "Use dicção natural de narrador brasileiro adulto, com ritmo claro e estável."
+)
 CUSTOM_VOICE_MODEL_SIZE = "1.7B"  # Always use 1.7B
 CUSTOM_VOICE_SEED = -1
 
@@ -281,7 +287,17 @@ class QwenAudiobookConverter:
 
     def get_cache_path(self, text: str) -> Path:
         """Get cache path for text chunk"""
-        content = f"{text}_{self.voice_mode}_{CUSTOM_VOICE_SPEAKER if self.voice_mode == 'custom_voice' else Path(self.voice_clone_ref_audio).name if self.voice_clone_ref_audio else ''}"
+        if self.voice_mode == "custom_voice":
+            content = (
+                f"{text}_{self.voice_mode}_{CUSTOM_VOICE_SPEAKER}_"
+                f"{CUSTOM_VOICE_LANGUAGE}_{CUSTOM_VOICE_INSTRUCT}_{CUSTOM_VOICE_MODEL_SIZE}_{CUSTOM_VOICE_SEED}"
+            )
+        else:
+            ref_name = Path(self.voice_clone_ref_audio).name if self.voice_clone_ref_audio else ""
+            content = (
+                f"{text}_{self.voice_mode}_{ref_name}_{VOICE_CLONE_LANGUAGE}_"
+                f"{VOICE_CLONE_USE_XVECTOR_ONLY}_{VOICE_CLONE_MODEL_SIZE}_{VOICE_CLONE_SEED}"
+            )
         hash_obj = hashlib.md5(content.encode())
         return Path("cache/audio_chunks") / f"{hash_obj.hexdigest()}.wav"
 
